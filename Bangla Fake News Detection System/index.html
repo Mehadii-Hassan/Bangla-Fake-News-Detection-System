@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BartaVerify | Bangla Fake News Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="branding">
+            <h1>BartaVerify</h1>
+            <p class="tagline">"A Bangla Fake News Detection System" by <b>Md. Mehadi Hassan</b></p>
+        </div>
+    </header>
+
+    <main>
+        <section class="verifier">
+            <h2><center>Verify News Credibility</center></h2>
+
+            <form action="/" method="POST" class="verification-form">
+                <label for="news_input">Enter News Link or Bangla Text:</label>
+                <input type="text" id="news_input" name="news_input"
+                       placeholder="উদাহরণস্বরূপ: একটি খবরের লিংক বা হেডলাইন লিখুন..." required>
+                <button type="submit">Check News</button>
+            </form>
+
+            {% if result %}
+                <p class="result {% if 'true' in result or 'verified' in result.lower() %}true-news{% elif 'updated' in result.lower() %}update-success{% else %}fake-news{% endif %}">
+                    {{ result|safe }}
+                </p>
+            {% endif %}
+
+            {% if matrix_img %}
+                <div class="confusion-matrix" style="margin-top: 30px; text-align: center;">
+                    <h2 style="color: #004d40;">Live Confusion Matrix</h2>
+                    <img src="data:image/png;base64,{{ matrix_img }}" alt="Confusion Matrix"
+                         style="max-width: 90%; height: auto; border: 2px solid #004d40; border-radius: 8px;">
+                </div>
+            {% endif %}
+
+            <div style="text-align:center; margin-top: 20px;">
+                <a href="/refresh" style="background:#00695c;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;">
+                    🔄 Click for update latest news
+                </a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 <strong>BartaVerify</strong> | Designed by <b>Md. Mehadi Hassan</b></p>
+    </footer>
+</body>
+</html>
